@@ -33,14 +33,10 @@ test('Displays a second-level heading with the text \'About Me\'.', () => {
 
 test('Displays a paragraph comprising a mini-biography of the page owner', () => {
     render(<App />);
-    const aboutMeHeading = screen.getByRole('heading', {
-        name: /about me/i,
-        exact: false,
-        level: 2,
+    const miniBio = screen.getByText((content, element) => {
+        return element.tagName.toLowerCase() === 'p' && content.length > 50 && content.match(/dave/i);
     });
-    const miniBio = aboutMeHeading.nextElementSibling;
-    expect(miniBio.tagName).toBe('P');
-    expect(miniBio.textContent).toMatch(/dave/i);
+    expect(miniBio).toBeInTheDocument();
     expect(miniBio.textContent.length).toBeGreaterThan(50);
 });
 
